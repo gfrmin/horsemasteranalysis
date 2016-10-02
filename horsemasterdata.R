@@ -10,7 +10,7 @@ source("secretconnect.R")
 performances <- db.data.frame("public.performances")
 performancesdt <- data.table(lk(performances, -1))
 
-write.csv(performancesdt, file = "performancesdt.csv", row.names = FALSE)
+write.csv(performancesdt, file = "performances.csv", row.names = FALSE)
 
 # finish
 
