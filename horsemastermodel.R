@@ -13,6 +13,12 @@ fitControl <- trainControl(
   method = "oob", verboseIter = TRUE
   )
 
-rffit <- train(finish_time ~ ., data = trainset, method = "rf", trControl = fitControl, tuneGrid = data.frame(mtry = c(2,6,10,14,17)))
+rffit <- train(finish_time ~ ., data = trainset, method = "rf", trControl = fitControl, tuneGrid = data.frame(mtry = c(2,5,8,11,15)), nodesize = 50)
 
+trainpredict <- predict(rffit, trainset)
+testpredict <- predict(rffit, testset)
+trainset$pred <- trainpredict
+testset$pred <- testpredict
 
+write.csv(trainset, file = "trainset.csv", row.names = FALSE)
+write.csv(testset, file = "testset.csv", row.names = FALSE)
