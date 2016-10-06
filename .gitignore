@@ -4,3 +4,6 @@
 .Ruserdata
 secretconnect.R
 *.csv
+*.log.*
+*.log
+h2ologs/
