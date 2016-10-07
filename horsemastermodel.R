@@ -24,6 +24,7 @@ write.csv(trainset, file = "trainset.csv", row.names = FALSE)
 write.csv(testset, file = "testset.csv", row.names = FALSE)
 
 trainset[,predrank := rank(predtime, ties.method = "random"), by=list(race_no, raceday, racemonth, raceyear)]
+setnames(testset, "pred", "predtime")
 testset[,predrank := rank(predtime, ties.method = "random"), by=list(race_no, raceday, racemonth, raceyear)]
 
 trainmore <- merge(trainset, performancesdt, by = intersect(names(trainset), names(performancesdt)), all.x = TRUE)
@@ -33,3 +34,6 @@ testmore <- merge(testset, performancesdt, by = intersect(names(testset), names(
 testbet <- testmore[predrank == 1]
 testbet[,profit := ifelse(final_placing == 1 & !is.na(final_placing), winning_odds, -1)]
 testtotalprofit <- testbet[,sum(profit)] # PROFIT!
+
+# what's going on?
+testtest <- testbet[order(winning_odds),list(profit=sum(profit)),by=winning_odds]
