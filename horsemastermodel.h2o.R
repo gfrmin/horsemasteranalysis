@@ -1,4 +1,3 @@
-library(data.table)
 library(sparklyr)
 library(rsparkling)
 library(dplyr)

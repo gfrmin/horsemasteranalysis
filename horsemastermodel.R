@@ -13,7 +13,7 @@ fitControl <- trainControl(
   method = "oob", verboseIter = TRUE
   )
 
-rffit <- train(finish_time ~ ., data = trainset, method = "rf", trControl = fitControl, tuneGrid = data.frame(mtry = c(2,5,8,11,15)), nodesize = 50)
+rffit <- train(finish_time ~ ., data = trainset, method = "rf", trControl = fitControl, tuneGrid = data.frame(mtry = c(5,15)), nodesize = 5)
 
 trainpredict <- predict(rffit, trainset)
 testpredict <- predict(rffit, testset)
