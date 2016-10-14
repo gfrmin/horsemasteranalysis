@@ -6,14 +6,14 @@ performancemodel <- performancesdt[,list(race_no,going,rating,winning_odds,actua
 
 performancemodel <- performancemodel[!is.na(rating)]
 
-trainset <- performancemodel[raceyear != 2016]
-testset <- performancemodel[raceyear == 2016]
+trainset <- performancemodel[raceyear < 2015]
+testset <- performancemodel[raceyear >= 2015]
 
 fitControl <- trainControl(
   method = "oob", verboseIter = TRUE
   )
 
-rffit <- train(finish_time ~ ., data = trainset, method = "rf", trControl = fitControl, tuneGrid = data.frame(mtry = c(5,15)), nodesize = 5)
+rffit <- train(finish_time ~ ., data = trainset, method = "rf", trControl = fitControl, tuneGrid = data.frame(mtry = c(5,15)), nodesize = 500)
 
 trainpredict <- predict(rffit, trainset)
 testpredict <- predict(rffit, testset)
@@ -24,7 +24,6 @@ write.csv(trainset, file = "trainset.csv", row.names = FALSE)
 write.csv(testset, file = "testset.csv", row.names = FALSE)
 
 trainset[,predrank := rank(predtime, ties.method = "random"), by=list(race_no, raceday, racemonth, raceyear)]
-setnames(testset, "pred", "predtime")
 testset[,predrank := rank(predtime, ties.method = "random"), by=list(race_no, raceday, racemonth, raceyear)]
 
 trainmore <- merge(trainset, performancesdt, by = intersect(names(trainset), names(performancesdt)), all.x = TRUE)
