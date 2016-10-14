@@ -3,7 +3,8 @@
 .RData
 .Ruserdata
 secretconnect.R
-*.csv
 *.log.*
 *.log
 h2ologs/
+performances*.csv
+trainset.csv
